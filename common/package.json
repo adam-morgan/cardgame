@@ -1,0 +1,13 @@
+{
+    "name": "@cardgame/common",
+    "version": "1.0.0",
+    "description": "Card Game - Common",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {},
+    "devDependencies": {},
+    "engines": {
+        "node": ">=17"
+    },
+    "private": true
+}

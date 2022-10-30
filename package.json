@@ -1,0 +1,19 @@
+{
+    "name": "cardgame",
+    "version": "1.0.0",
+    "description": "Card Game",
+    "scripts": {},
+    "devDependencies": {
+        "typescript": "^4.8.4"
+    },
+    "engines": {
+        "node": ">=17"
+    },
+    "private": true,
+    "workspaces": {
+        "packages": [
+            "client",
+            "common"
+        ]
+    }
+}

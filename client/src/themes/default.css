@@ -1,0 +1,11 @@
+:root {
+    --app-background-color: white;
+
+    /* Game Board */
+    --gameBoard-rim-background-color: #fafafa;
+    --gameBoard-outer-border-color: #fafafa;
+    --gameBoard-outer-box-shadow-color: rgb(0 0 0 / 35%);
+    --gameBoard-background-color: white;
+    --gameBoard-inner-border-color: #fafafa;
+    --gameBoard-inner-box-shadow-color: #c3c3c3;
+}

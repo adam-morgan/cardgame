@@ -1,0 +1,9 @@
+.testLayout {
+    max-width: 1000px;
+    width: calc(90vw - 40px);
+    height: 400px;
+    padding: 20px;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
