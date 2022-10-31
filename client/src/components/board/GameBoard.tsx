@@ -1,33 +1,32 @@
 import React from 'react';
-
 import { useResizeDetector } from 'react-resize-detector';
 
-import styles from './Board.module.css';
+import { GameBoardProps } from './props';
+import LandscapeGameBoard from './LandscapeGameBoard';
 
-interface GameBoardProps {
-    
-}
+import styles from './Board.module.less';
 
 const GameBoard = (props: GameBoardProps) => {
     const { width, ref } = useResizeDetector();
 
-    const outerStyle = {
-        borderRadius: width == null ? 0 : `${Math.floor(width * 0.1)}px`
-    }
-
-    const innerStyle = {
-        borderRadius: width == null ? 0 : `${Math.floor(width * 0.1) - 20}px`
+    let boardComponent;
+    if (width != null) {
+        if (width > 600) {
+            boardComponent = (
+                <LandscapeGameBoard {...props} />
+            )
+        } else {
+            boardComponent = (
+                <div>Not implemented</div>
+            )
+        }
     }
 
     return (
         <div ref={ref} className={styles.gameBoard}>
-            <div className={styles.gameBoardOuter} style={outerStyle}>
-                <div className={styles.gameBoardInner} style={innerStyle}>
-
-                </div>
-            </div>
+            {boardComponent}
         </div>
-    );
+    )
 };
 
 export default GameBoard;

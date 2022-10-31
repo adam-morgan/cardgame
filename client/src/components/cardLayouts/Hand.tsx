@@ -6,12 +6,13 @@ import { PlayingCard } from '@cardgame/common';
 
 import { Card } from '../card';
 
-import styles from './CardLayouts.module.css';
+import styles from './CardLayouts.module.less';
 
-const OVERLAP_DENOM = 2.5;
+const OVERLAP_DENOM = 3;
 
 interface HandProps {
     cards?: PlayingCard[];
+    cardsDraggable?: boolean | ((card:PlayingCard) => boolean);
 }
 
 const Hand = (props: HandProps) => {
@@ -31,6 +32,15 @@ const Hand = (props: HandProps) => {
         }
 
         cardElements = props.cards?.map((card, idx) => {
+            let draggable;
+            if (props.cardsDraggable != null) {
+                if (typeof props.cardsDraggable === 'boolean') {
+                    draggable = props.cardsDraggable;
+                } else {
+                    draggable = props.cardsDraggable(card);
+                }
+            }
+
             return (
                 <div
                     key={`card${idx}`}
@@ -42,6 +52,7 @@ const Hand = (props: HandProps) => {
                         card={card}
                         width={optimalCardWidth}
                         withHover
+                        draggable={draggable}
                     />
                 </div>
             );
