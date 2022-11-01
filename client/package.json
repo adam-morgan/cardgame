@@ -6,6 +6,9 @@
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@cardgame/common": "*",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.10.12",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@reduxjs/toolkit": "^1.8.6",
     "@svgr/webpack": "^5.5.0",

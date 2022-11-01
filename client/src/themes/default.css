@@ -1,5 +1,7 @@
 :root {
+    /* General */
     --app-background-color: white;
+    --logo-background-color: rgb(0, 74, 124);
 
     /* Game Board */
     --gameBoard-rim-background-color: #fafafa;
