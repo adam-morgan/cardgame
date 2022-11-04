@@ -4,7 +4,9 @@
     "description": "Card Game - Common",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
-    "scripts": {},
+    "scripts": {
+        "build": "npx tsc -p tsconfig.json"
+    },
     "devDependencies": {},
     "engines": {
         "node": ">=17"
