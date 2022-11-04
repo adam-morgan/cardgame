@@ -1,25 +1,50 @@
-import React from 'react';
-// import { DndProvider } from 'react-dnd'
-// import { HTML5Backend } from 'react-dnd-html5-backend'
-// import { TouchBackend } from 'react-dnd-touch-backend';
+import React, { useEffect } from 'react';
 
-// import TestLayout from './TestLayout';
+import {
+    createBrowserRouter,
+    RouterProvider,
+} from "react-router-dom";
+
+import { useAppDispatch, useAppSelector } from './app/hooks';
+
+import {
+    initialize as initializeUser,
+    getStatus as getUserStatus
+} from './data/user/userSlice';
 
 import HomeScreen from './home';
 
 import './App.css';
+import TestLayout from './TestLayout';
+
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <HomeScreen />,
+    },
+    {
+        path: 'test',
+        element: <TestLayout />
+    }
+]);
 
 const App = () => {
-  // const dndBackend = HTML5Backend;
+    const dispatch = useAppDispatch();
+    const userStatus = useAppSelector(getUserStatus);
 
-  return (
-    <div className="App" data-theme="light">
-      {/* <DndProvider backend={dndBackend}>
-        <TestLayout />
-      </DndProvider> */}
-      <HomeScreen />
-    </div>
-  );
+    useEffect(() => {
+        if (userStatus === null) {
+        dispatch(initializeUser());
+        }
+    }, [userStatus, dispatch]);
+
+    const shouldRender = userStatus === 'loaded';
+
+    return (
+        <div className="App" data-theme="light">
+        {shouldRender ? (<RouterProvider router={router} />) : null}
+        </div>
+    );
 }
 
 export default App;

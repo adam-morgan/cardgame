@@ -1,0 +1,25 @@
+{
+  "name": "@cardgame/server",
+  "description": "Card Game - Server",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "npx tsc -p tsconfig.json",
+    "start": "nodemon build/index.js"
+  },
+  "dependencies": {
+    "@cardgame/common": "*",
+    "@fastify/cookie": "^8.3.0",
+    "@fastify/session": "^10.0.2",
+    "fastify": "^4.9.2"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "nodemon": "^2.0.20"
+  },
+  "engines": {
+    "node": ">=17"
+  }
+}
