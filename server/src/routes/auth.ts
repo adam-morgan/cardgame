@@ -55,9 +55,9 @@ const initializeRoutes = (server: FastifyInstance) => {
     });
 
     server.post<{Body: CreateAccountRequest}>('/auth/createAccount', async (request, reply) => {
-        const created = await createAccount(request.body.user, request.body.password);
+        const response = await createAccount(request.body.user, request.body.password);
 
-        reply.send({ created });
+        reply.send(response);
     });
 };
 

@@ -4,6 +4,9 @@
     --logo-background-color: rgb(0, 74, 124);
     --section-border-color: #E7EBF0;
 
+    /* Forms */
+    --textField-icon-color: rgba(0, 0, 0, 0.54);
+
     /* Game Board */
     --gameBoard-rim-background-color: #fafafa;
     --gameBoard-outer-box-shadow-color: rgb(0 0 0 / 35%);

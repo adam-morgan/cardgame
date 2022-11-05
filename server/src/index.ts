@@ -2,6 +2,7 @@ import fastify from 'fastify';
 import fastifySession from '@fastify/session';
 import fastifyCookie from '@fastify/cookie';
 
+import { initUsersDb } from './db/auth.js';
 import { initializeRoutes } from './routes/index.js';
 
 const PORT = parseInt(process.env.PORT ?? '3001', 10);
@@ -18,11 +19,20 @@ server.register(fastifySession, {
 
 initializeRoutes(server);
 
-server.listen({ port: PORT }, (err, address) => {
-    if (err) {
-        console.error(err)
-        process.exit(1)
-    }
+const init = async () => {
+    console.log('Initializing users DB...');
+    await initUsersDb();
+};
 
-    console.log(`Server listening at ${address}`);
+init().then(() => {
+    server.listen({ port: PORT }, (err, address) => {
+        if (err) {
+            console.error(err)
+            process.exit(1)
+        }
+
+        console.log(`Server listening at ${address}`);
+    });
 });
+
+

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ES2022",
     "declaration": true,
     "outDir": "./dist",
     "rootDir": "./src",

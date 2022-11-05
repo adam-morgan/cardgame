@@ -1,7 +1,11 @@
-import type { User } from '@cardgame/common';
+import type { CreateAccountResponse, User } from '@cardgame/common';
 
-export const createAccount = (user: User, password: string): boolean => {
+export const createAccount = async (user: User, password: string): Promise<CreateAccountResponse> => {
     // TODO
 
-    return true;
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    return {
+        created: true
+    };
 };

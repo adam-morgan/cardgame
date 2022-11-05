@@ -23,6 +23,10 @@ const router = createBrowserRouter([
         element: <HomeScreen />,
     },
     {
+        path: 'signUp',
+        element: <HomeScreen mode="signUp" />
+    },
+    {
         path: 'test',
         element: <TestLayout />
     }

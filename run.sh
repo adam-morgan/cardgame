@@ -2,19 +2,12 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-cd $SCRIPT_DIR/common
-npx tsc -w &
-
-cd $SCRIPT_DIR/docker
-docker-compose up -d
-
 cd $SCRIPT_DIR/server
-npx tsc -w &
 yarn start &
 
 cd $SCRIPT_DIR/client
 yarn start &
 
-trap "trap - SIGTERM && cd $SCRIPT_DIR/docker && docker-compose down && kill -- -$$" SIGINT SIGTERM EXIT
+trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
 
 wait
