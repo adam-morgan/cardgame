@@ -4,4 +4,4 @@ export {
     getValidUsernameDescription,
     isPasswordValid,
     getValidPasswordDescription
-} from './auth';
+} from './auth.js';

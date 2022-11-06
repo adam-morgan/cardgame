@@ -1,5 +1,25 @@
 const SERVER_URL = '/api';
 
+export const get = async <Resp>(apiPath: string): Promise<Resp> => {
+    try {
+        const response = await fetch(
+            createUrl(apiPath),
+            {
+                method: 'GET'
+            }
+        )
+
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        return response.json();
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
+};
+
 export const post = async <Req, Resp>(apiPath: string, request: Req): Promise<Resp> => {
     try {
         const response = await fetch(

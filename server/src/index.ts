@@ -7,7 +7,24 @@ import { initializeRoutes } from './routes/index.js';
 
 const PORT = parseInt(process.env.PORT ?? '3001', 10);
 
-const server = fastify();
+let logger;
+if (process.env.NODE_ENV === 'production') {
+    logger = true;
+} else if (process.env.NODE_ENV === 'test') {
+    logger = false;
+} else {
+    logger = {
+        transport: {
+            target: 'pino-pretty',
+            options: {
+                translateTime: 'HH:MM:ss Z',
+                ignore: 'pid,hostname',
+            },
+        }
+    };
+}
+
+const server = fastify({ logger });
 
 server.register(fastifyCookie);
 

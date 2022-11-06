@@ -23,6 +23,7 @@ import {
 import styles from './Forms.module.less';
 
 interface TextFieldProps {
+    disabled?: boolean,
     error?: boolean
     fullWidth?: boolean
     helperText?: string,
@@ -80,6 +81,7 @@ export const TextField = (props: TextFieldProps) => {
                 <OutlinedInput
                     id={id}
                     error={props.error}
+                    disabled={props.disabled}
                     label={focused || hasValue ? props.label : undefined}
                     type={showPassword ? 'text' : 'password'}
                     value={props.value}
@@ -110,6 +112,7 @@ export const TextField = (props: TextFieldProps) => {
     return (
         <MTextField
             error={props.error}
+            disabled={props.disabled}
             required={props.required}
             helperText={props.helperText}
             className={styles.textField}

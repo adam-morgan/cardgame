@@ -3,6 +3,21 @@ export interface User {
     username: string
 }
 
+export interface CheckSessionResponse {
+    isAuthenticated: boolean,
+    user?: User
+}
+
+export interface LoginRequest {
+    usernameOrEmail: string,
+    password: string
+}
+
+export interface LoginResponse {
+    isAuthenticated: boolean,
+    user?: User
+}
+
 export interface CreateAccountRequest {
     email: string,
     username: string,

@@ -6,8 +6,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 import {
     AccountCircle,
-    Email,
-    Save
+    Email
 } from '@mui/icons-material';
 
 import { validation } from '@cardgame/common';
@@ -25,6 +24,7 @@ const Signup = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [alertMsg, setAlertMsg] = useState<string>();
 
     const isValidEmail = email != null && validation.isEmailValid(email);
     const isValidUsername = username != null && validation.isUsernameValid(username);
@@ -59,6 +59,10 @@ const Signup = () => {
                 </Alert>
             </div>
         );
+    } else if (alertMsg) {
+        alert = (
+            <Alert severity="error">{alertMsg}</Alert>
+        );
     } else if (response?.failureReason) {
         alert = (
             <Alert severity="error">{response.failureReason}</Alert>
@@ -70,6 +74,7 @@ const Signup = () => {
             {alert}
             <TextField
                 label="Username"
+                disabled={requestPending}
                 error={usernameErrorText != null}
                 helperText={usernameErrorText}
                 fullWidth
@@ -79,6 +84,7 @@ const Signup = () => {
             />
             <TextField
                 label="Email"
+                disabled={requestPending}
                 error={emailErrorText != null}
                 helperText={emailErrorText}
                 fullWidth
@@ -89,6 +95,7 @@ const Signup = () => {
             <TextField
                 type="password"
                 label="Password"
+                disabled={requestPending}
                 error={passwordErrorText != null}
                 helperText={passwordErrorText}
                 fullWidth
@@ -98,19 +105,24 @@ const Signup = () => {
             <LoadingButton
                 variant="contained"
                 loading={requestPending}
-                startIcon={requestPending ? <Save /> : undefined}
-                loadingPosition={requestPending ? "start" : undefined}
-                disabled={!isValidUsername || !isValidEmail || !isValidPassword}
-                onClick={() => {
+                onClick={async () => {
                     if (requestPending) {
                         return;
                     }
 
-                    dispatch(sendSignupRequest({
-                        email,
-                        username,
-                        password
-                    }));
+                    if (!isValidUsername || !isValidEmail || !isValidPassword) {
+                        setAlertMsg('Please enter valid values for user, email, and password.');
+                    } else {
+                        await dispatch(sendSignupRequest({
+                            email,
+                            username,
+                            password
+                        }));
+
+                        if (alertMsg) {
+                            setAlertMsg(undefined);
+                        }
+                    }
                 }}
             >
                 Create Account
