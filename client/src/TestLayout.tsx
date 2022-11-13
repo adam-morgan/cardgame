@@ -2,7 +2,7 @@ import React from 'react';
 
 import { PlayingCard } from '@cardgame/common';
 
-import { GameBoard } from './components/board';
+import GameBoard from './components/board/GameBoard';
 
 import styles from './TestLayout.module.css';
 

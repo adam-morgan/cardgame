@@ -7,6 +7,10 @@
     .homeContent {
         width: 100%;
         max-width: 640px;
+        display: grid;
+        grid-auto-flow: row;
+        grid-template-rows: repeat(auto-fill, minmax(min-content, 0px));
+        grid-gap: 20px;
 
         .homeLogo {
             width: 100%;
@@ -53,7 +57,6 @@
         }
 
         .loginSection {
-            margin-top: 20px;
             padding: 20px;
             display: grid;
             grid-gap: 15px;

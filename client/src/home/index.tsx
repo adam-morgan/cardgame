@@ -5,6 +5,7 @@ import { isLoggedIn } from '../data/user/userSlice';
 
 import Login from './Login';
 import Signup from './Signup';
+import CreateGame from './CreateGame';
 
 import styles from './Home.module.less';
 
@@ -20,7 +21,10 @@ const HomeScreen = (props: HomeScreenProps) => {
         homeContent = <Signup />;
     } else if (props.mode === 'home') {
         homeContent = (
-            !loggedIn ? (<Login />) : null
+            <>
+                {!loggedIn ? (<Login key="login"/>) : null}
+                <CreateGame key="createGame" />
+            </>
         );
     }
 

@@ -14,6 +14,9 @@ import {
 
 import HomeScreen from './home';
 
+import Masker from './containers/masker/MaskerContainer';
+import PopupAlert from './containers/alert/PopupAlertContainer';
+
 import './App.css';
 import TestLayout from './TestLayout';
 
@@ -46,7 +49,9 @@ const App = () => {
 
     return (
         <div className="App" data-theme="light">
-        {shouldRender ? (<RouterProvider router={router} />) : null}
+            {shouldRender ? (<RouterProvider router={router} />) : null}
+            <Masker />
+            <PopupAlert />
         </div>
     );
 }

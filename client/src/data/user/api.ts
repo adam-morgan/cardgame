@@ -13,7 +13,6 @@ export const checkSession = async () => {
 };
 
 export const doLogin = async (request: LoginRequest) => {
-    await new Promise((resolve) => setTimeout(resolve, 5000));
     return post<LoginRequest, LoginResponse>('/auth/login', request);
 };
 

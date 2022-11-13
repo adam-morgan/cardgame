@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { Alert } from '@mui/material';
+import { Alert, Button } from '@mui/material';
 
 import LoadingButton from '@mui/lab/LoadingButton';
 
@@ -20,6 +21,7 @@ import styles from './Home.module.less';
 
 const Signup = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -127,6 +129,14 @@ const Signup = () => {
             >
                 Create Account
             </LoadingButton>
+            <Button
+                variant="outlined"
+                onClick={() => {
+                    navigate(-1);
+                }}
+            >
+                Cancel
+            </Button>
         </div>
     )
 };

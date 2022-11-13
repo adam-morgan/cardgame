@@ -17,7 +17,7 @@ import {
 
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 
-import { getLoggingInStatus, getUser, login, getLoginFailed } from '../data/user/userSlice';
+import { getLoggingInStatus, login, getLoginFailed } from '../data/user/userSlice';
 import { reset as resetSignup } from '../data/user/signupSlice';
 
 import { TextField } from '../components/forms/TextField';
