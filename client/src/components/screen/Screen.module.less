@@ -1,0 +1,96 @@
+@transition-speed: .5s;
+
+.screen {
+    height: 100%;
+    display: flex;
+    padding: 10px 10px 0 10px;
+    justify-content: center;
+
+    .screenContent {
+        width: 100%;
+        max-width: 640px;
+        display: grid;
+        grid-auto-flow: row;
+        grid-template-rows: repeat(auto-fill, minmax(min-content, 0px));
+        grid-gap: 20px;
+
+        .screenLogo {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--logo-background-color);
+            justify-content: center;
+            display: flex;
+            border-radius: 20px;
+            box-shadow: 0 5px 5px var(--gameBoard-outer-box-shadow-color);
+
+            &::after {
+                content: "";
+                width: 200%;
+                height: 200%;
+                bottom: 0px;
+                left: 0px;
+                position: absolute;
+                opacity: 0.25;
+                background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+            }
+
+            .screenLogoImages {
+                display: grid;
+                justify-content: center;
+                grid-gap: 10px;
+                align-content: center;
+                justify-items: center;
+
+                .screenImageCards {
+                    height: 50px;
+                }
+
+                .screenImage120s {
+                    height: 60px;
+                }
+
+                .screenImageCardGame {
+                    height: 14px;
+                    margin-top: 10px;
+                }
+            }
+        }
+
+
+    }
+
+    &.smallBanner {
+        padding: 0;
+        transition: all @transition-speed ease-in-out;
+
+        .screenContent {
+            max-width: 100%;
+            transition: all @transition-speed ease-in-out;
+            grid-template-rows: min-content 1fr;
+
+            .screenLogo {
+                height: 50px;
+                border-radius: 0;
+                transition: all @transition-speed ease-in-out;
+
+                .screenLogoImages {
+                    display: flex;
+                    align-items: center;
+                    transition: all @transition-speed ease-in-out;
+
+                    .screenImageCards {
+                        height: 30px;
+                        transition: all @transition-speed ease-in-out;
+                    }
+
+                    .screenImage120s {
+                        height: 30px;
+                        transition: all @transition-speed ease-in-out;
+                    }
+                }
+            }
+        }
+    }
+}

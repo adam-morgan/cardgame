@@ -51,7 +51,7 @@ const Card = (props: CardProps) => {
     }
 
     return (
-        <div 
+        <div
             className={className}
             style={style}
             ref={(node) => {

@@ -1,82 +1,27 @@
-.home {
-    height: 100%;
-    display: flex;
-    padding: 10px 10px 0 10px;
-    justify-content: center;
+.loginSection {
+    padding: 20px;
+    display: grid;
+    grid-gap: 15px;
+    border: 1px solid var(--section-border-color);
+    border-radius: 10px;
 
-    .homeContent {
-        width: 100%;
-        max-width: 640px;
-        display: grid;
-        grid-auto-flow: row;
-        grid-template-rows: repeat(auto-fill, minmax(min-content, 0px));
-        grid-gap: 20px;
-
-        .homeLogo {
-            width: 100%;
-            height: 200px;
-            position: relative;
-            overflow: hidden;
-            background-color: var(--logo-background-color);
-            justify-content: center;
-            display: flex;
-            border-radius: 20px;
-            box-shadow: 0 5px 5px var(--gameBoard-outer-box-shadow-color);
-
-            &::after {
-                content: "";
-                width: 200%;
-                height: 200%;
-                bottom: 0px;
-                left: 0px;
-                position: absolute;
-                opacity: 0.25;
-                background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
-            }
-
-            .homeLogoImages {
-                display: grid;
-                justify-content: center;
-                grid-gap: 10px;
-                align-content: center;
-                justify-items: center;
-
-                .homeImageCards {
-                    height: 50px;
-                }
-
-                .homeImage120s {
-                    height: 60px;
-                }
-
-                .homeImageCardGame {
-                    height: 14px;
-                    margin-top: 10px;
-                }
-            }
-        }
-
-        .loginSection {
-            padding: 20px;
-            display: grid;
-            grid-gap: 15px;
-            border: 1px solid var(--section-border-color);
-            border-radius: 10px;
-
-            .rememberAndForgot {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-        }
-
-        .signUpSection {
-            margin-top: 20px;
-            padding: 20px;
-            display: grid;
-            grid-gap: 15px;
-            border: 1px solid var(--section-border-color);
-            border-radius: 10px;
-        }
+    .rememberAndForgot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
+}
+
+.signUpSection {
+    margin-top: 20px;
+    padding: 20px;
+    display: grid;
+    grid-gap: 15px;
+    border: 1px solid var(--section-border-color);
+    border-radius: 10px;
+}
+
+.createNewGame {
+    display: grid;
+    grid-gap: 15px;
 }

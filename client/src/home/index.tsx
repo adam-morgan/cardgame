@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useAppSelector } from '../app/hooks';
 import { isLoggedIn } from '../data/user/userSlice';
 
+import Screen from '../components/screen/Screen';
+
 import Login from './Login';
 import Signup from './Signup';
 import CreateGame from './CreateGame';
-
-import styles from './Home.module.less';
+import { SmallBannerContext } from './context';
 
 interface HomeScreenProps {
     mode: 'home' | 'signUp'
 }
 
 const HomeScreen = (props: HomeScreenProps) => {
+    const [smallBanner, setSmallBanner] = useState(false);
     const loggedIn = useAppSelector(isLoggedIn);
 
     let homeContent: React.ReactNode | null;
@@ -29,18 +31,11 @@ const HomeScreen = (props: HomeScreenProps) => {
     }
 
     return (
-        <div className={styles.home}>
-            <div className={styles.homeContent}>
-                <div className={styles.homeLogo}>
-                    <div className={styles.homeLogoImages}>
-                        <img className={styles.homeImageCards} src="/cards_icon.svg" alt="Cards" />
-                        <img className={styles.homeImage120s} src="/120s.svg" alt="120s" />
-                        <img className={styles.homeImageCardGame} src="/card_game.svg" alt="Card Game" />
-                    </div>
-                </div>
-                {homeContent}
-            </div>
-        </div>
+        <SmallBannerContext.Provider value={{ setSmallBanner }}>
+            <Screen smallBanner={smallBanner}>
+                {smallBanner ? null : homeContent}
+            </Screen>
+        </SmallBannerContext.Provider>
     );
 };
 

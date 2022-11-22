@@ -3,6 +3,7 @@ import fastifySession from '@fastify/session';
 import fastifyCookie from '@fastify/cookie';
 
 import { initUsersDb } from './db/auth.js';
+import { initGameDb } from './db/game.js';
 import { initializeRoutes } from './routes/index.js';
 
 const PORT = parseInt(process.env.PORT ?? '3001', 10);
@@ -39,6 +40,7 @@ initializeRoutes(server);
 const init = async () => {
     console.log('Initializing users DB...');
     await initUsersDb();
+    await initGameDb();
 };
 
 init().then(() => {

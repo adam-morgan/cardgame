@@ -25,7 +25,7 @@ const Select = <V extends OptionValue>(props: SelectProps<V>) => {
     let labelId = props.label == null ? undefined : uuid();
 
     return (
-        <FormControl fullWidth variant="outlined" size="small">
+        <FormControl fullWidth variant="outlined" size="medium">
             {props.label ?
                 (
                     <InputLabel id={labelId}>{props.label}</InputLabel>

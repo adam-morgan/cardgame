@@ -12,8 +12,9 @@ import * as validation from './validation/index.js';
 import { PlayingCard } from './cards/playingCard.js';
 import { Suit } from './cards/suit.js';
 
-import type { GameSetup } from './game/gameSetup.js';
-import { CreateGameRequest, CreateGameResponse } from './game/gameSetup.js';
+import { CreateGameRequest, CreateGameResponse } from './game/createGame.js';
+import { GameState, GetGameStateResponse } from './game/gameState.js';
+import { Player } from './game/player.js';
 
 export type {
     CheckSessionResponse,
@@ -21,9 +22,11 @@ export type {
     CreateAccountResponse,
     CreateGameRequest,
     CreateGameResponse,
-    GameSetup,
+    GetGameStateResponse,
+    GameState,
     LoginRequest,
     LoginResponse,
+    Player,
     Suit,
     User
 };

@@ -5,5 +5,3 @@ export {
     isPasswordValid,
     getValidPasswordDescription
 } from './auth.js';
-
-export { isGameSetupValid } from './gameSetup.js';

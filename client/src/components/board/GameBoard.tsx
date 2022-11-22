@@ -1,7 +1,7 @@
 import React from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 
-import { DndProvider } from 'react-dnd'
+import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend'
 // import { TouchBackend } from 'react-dnd-touch-backend';
 

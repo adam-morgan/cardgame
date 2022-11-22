@@ -1,6 +1,7 @@
 import { combineReducers, configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import alertReducer from '../containers/alert/alertSlice';
 import maskerReducer from '../containers/masker/maskerSlice';
+import gameReducer from '../data/game/gameSlice';
 import signupReducer from '../data/user/signupSlice';
 import userReducer from '../data/user/userSlice';
 
@@ -10,6 +11,7 @@ export const store = configureStore({
         alert: alertReducer,
         masker: maskerReducer
     }),
+    game: gameReducer,
     signup: signupReducer,
     user: userReducer,
   },

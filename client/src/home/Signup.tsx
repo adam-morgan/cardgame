@@ -15,7 +15,7 @@ import { validation } from '@cardgame/common';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { isRequestPending, getSignupResponse, sendSignupRequest } from '../data/user/signupSlice';
 
-import { TextField } from '../components/forms/TextField';
+import TextField from '../components/forms/TextField';
 
 import styles from './Home.module.less';
 

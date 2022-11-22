@@ -1,15 +1,14 @@
 import { FastifyInstance } from 'fastify';
+import { v4 as uuid } from 'uuid';
 
 import type { CreateAccountRequest, LoginRequest, User } from '@cardgame/common';
 
 import { doLogin } from '../auth/login.js';
+import type { UserInfo } from '../auth/types.js';
 import { createAccount } from '../auth/createAccount.js';
 
 declare module "fastify" {
-    interface Session {
-        isAuthenticated: boolean,
-        user: User
-    }
+    interface Session extends UserInfo {}
 }
 
 const initializeRoutes = (server: FastifyInstance) => {
@@ -20,8 +19,14 @@ const initializeRoutes = (server: FastifyInstance) => {
                 user: request.session.user
             });
         } else {
+            if (!request.session.guestId) {
+                // request.session.guestId = uuid();
+                request.session.guestId = 'static_guest_id';
+            }
+
             reply.send({
-                isAuthenticated: false
+                isAuthenticated: false,
+                guestId: request.session.guestId
             });
         }
     });

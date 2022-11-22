@@ -5,7 +5,8 @@ export interface User {
 
 export interface CheckSessionResponse {
     isAuthenticated: boolean,
-    user?: User
+    user?: User,
+    guestId?: string
 }
 
 export interface LoginRequest {

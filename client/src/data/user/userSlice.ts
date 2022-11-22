@@ -10,7 +10,8 @@ export interface UserState {
     isLoggedIn: boolean
     loggingInStatus: 'pending' | 'done' | 'failed' | null
     loginFailed?: boolean
-    user?: User
+    user?: User,
+    guestId?: string
 }
 
 const initialState: UserState = {
@@ -44,6 +45,7 @@ export const userSlice = createSlice({
             .addCase(initialize.fulfilled, (state, action) => {
                 state.isLoggedIn = action.payload.isAuthenticated;
                 state.user = action.payload.user;
+                state.guestId = action.payload.guestId;
                 state.status = 'loaded';
             })
             .addCase(initialize.rejected, (state) => {
@@ -68,6 +70,7 @@ export const userSlice = createSlice({
 export const getStatus = (state: RootState) => state.user.status;
 export const getLoggingInStatus = (state: RootState) => state.user.loggingInStatus;
 export const getUser = (state: RootState) => state.user.user;
+export const getGuestId = (state: RootState) => state.user.guestId;
 export const isLoggedIn = (state: RootState) => state.user.isLoggedIn;
 export const getLoginFailed = (state: RootState) => state.user.loginFailed;
 

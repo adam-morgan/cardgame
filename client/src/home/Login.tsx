@@ -20,7 +20,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getLoggingInStatus, login, getLoginFailed } from '../data/user/userSlice';
 import { reset as resetSignup } from '../data/user/signupSlice';
 
-import { TextField } from '../components/forms/TextField';
+import TextField from '../components/forms/TextField';
 
 import styles from './Home.module.less';
 

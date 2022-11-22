@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import {
     createBrowserRouter,
     RouterProvider,
+    useParams
 } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from './app/hooks';
@@ -13,12 +14,18 @@ import {
 } from './data/user/userSlice';
 
 import HomeScreen from './home';
+import GameContainer from './containers/game/GameContainer';
 
 import Masker from './containers/masker/MaskerContainer';
 import PopupAlert from './containers/alert/PopupAlertContainer';
 
 import './App.css';
 import TestLayout from './TestLayout';
+
+const GameContainerRoute = () => {
+    const { gameId } = useParams();
+    return <GameContainer gameId={gameId as string} />;
+};
 
 const router = createBrowserRouter([
     {
@@ -28,6 +35,10 @@ const router = createBrowserRouter([
     {
         path: 'signUp',
         element: <HomeScreen mode="signUp" />
+    },
+    {
+        path: 'game/:gameId',
+        element: <GameContainerRoute />
     },
     {
         path: 'test',
@@ -41,7 +52,7 @@ const App = () => {
 
     useEffect(() => {
         if (userStatus === null) {
-        dispatch(initializeUser());
+            dispatch(initializeUser());
         }
     }, [userStatus, dispatch]);
 

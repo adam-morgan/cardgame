@@ -1,7 +1,15 @@
-import { CreateGameRequest, CreateGameResponse } from "@cardgame/common"
+import {
+    CreateGameRequest,
+    CreateGameResponse,
+    GetGameStateResponse
+} from "@cardgame/common"
 
-import { post } from '../../server/fetch';
+import { get, post } from '../../server/fetch';
 
 export const sendCreateGameRequest = (request: CreateGameRequest) => {
-    return post<CreateGameRequest, CreateGameResponse>('/game/create', request);
+    return post<CreateGameRequest, CreateGameResponse>('/game', request);
+};
+
+export const getGameState = (gameId: string) => {
+    return get<GetGameStateResponse>(`/game/${gameId}`);
 };

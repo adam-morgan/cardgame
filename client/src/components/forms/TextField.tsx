@@ -35,7 +35,7 @@ interface TextFieldProps {
     value?: string
 }
 
-export const TextField = (props: TextFieldProps) => {
+const TextField = (props: TextFieldProps) => {
     const [focused, setFocused] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -128,3 +128,5 @@ export const TextField = (props: TextFieldProps) => {
         />
     )
 };
+
+export default TextField;
