@@ -136,6 +136,22 @@
     border-radius: 10000px;
     box-shadow: 2px 3px 3px var(--gameBoard-outer-box-shadow-color);
     position: relative;
+    transform: translate(0, 0);
+    cursor: pointer;
+
+    &.dragging {
+        box-shadow: none !important;
+    }
+
+    .dropping {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 255, 0, 0.3);
+        border-radius: 100%;
+    }
 
     .pending {
         border-radius: inherit;
@@ -162,5 +178,24 @@
             width: 24px;
             height: 24px;
         }
+    }
+}
+
+.playerDetailsPopup {
+    padding: 10px;
+    position: relative;
+    bottom: 5px;
+}
+
+.playerDetails {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    align-items: center;
+    grid-gap: 10px;
+
+    .playerDetailsLinks {
+        grid-column: 1 / span 2;
+        display: flex;
+        justify-content: center;
     }
 }

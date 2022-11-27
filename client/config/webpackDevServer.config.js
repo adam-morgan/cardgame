@@ -105,6 +105,10 @@ module.exports = function (proxy, allowedHost) {
         '/api': {
             target: 'http://localhost:3001',
             pathRewrite: { '^/api': '' },
+        },
+        '/socket.io': {
+            target: 'ws://localhost:3001',
+            ws: true
         }
     },
     onBeforeSetupMiddleware(devServer) {

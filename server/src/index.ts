@@ -1,10 +1,12 @@
 import fastify from 'fastify';
 import fastifySession from '@fastify/session';
 import fastifyCookie from '@fastify/cookie';
+import fastifyIO from 'fastify-socket.io';
 
 import { initUsersDb } from './db/auth.js';
 import { initGameDb } from './db/game.js';
 import { initializeRoutes } from './routes/index.js';
+import { onSocketConnection } from './sockets/index.js';
 
 const PORT = parseInt(process.env.PORT ?? '3001', 10);
 
@@ -28,6 +30,7 @@ if (process.env.NODE_ENV === 'production') {
 const server = fastify({ logger });
 
 server.register(fastifyCookie);
+server.register(fastifyIO);
 
 server.register(fastifySession, {
     cookieName: 'sessionId',
@@ -44,6 +47,21 @@ const init = async () => {
 };
 
 init().then(() => {
+    server.ready().then(() => {
+        server.io.on('connection', (socket) => {
+            const sessionId = server.parseCookie(socket.handshake.headers.cookie as string).sessionId;
+
+            onSocketConnection(socket, async () => {
+                return new Promise((resolve) => {
+                    const req = { raw: {}, headers: {} };
+                    server.decryptSession(sessionId, req, () => {
+                        resolve((req as any).session);
+                    });
+                });
+            });
+        });
+    });
+
     server.listen({ port: PORT }, (err, address) => {
         if (err) {
             console.error(err)

@@ -12,6 +12,15 @@ import {
 import { createGame as dbCreateGame } from '../db/game.js';
 import type { UserInfo } from '../auth/types.js';
 
+const colors = [
+    '#A62A21',
+    '#7e3794',
+    '#0B51C1',
+    '#3A6024',
+    '#A81563',
+    '#B3003C'
+];
+
 export const createGame = async (
     req: CreateGameRequest,
     userInfo: UserInfo
@@ -22,14 +31,16 @@ export const createGame = async (
         players.push({
             id: uuid(),
             type: 'authenticated',
-            username: userInfo.user.username
+            username: userInfo.user.username,
+            color: colors[0]
         });
     } else if (req.playerName?.trim()) {
         players.push({
             id: uuid(),
             type: 'guest',
             username: req.playerName,
-            guestId: userInfo.guestId
+            guestId: userInfo.guestId,
+            color: colors[0]
         });
     } else {
         return {
@@ -46,7 +57,7 @@ export const createGame = async (
     }
 
     for (let i = 1; i < req.numPlayers; i++) {
-        players.push({ id: uuid(), type: 'pending', username: '' });
+        players.push({ id: uuid(), type: 'pending', username: '', color: colors[i] });
     }
 
     const gameId = shortUuid.generate();

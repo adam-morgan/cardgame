@@ -1,4 +1,4 @@
-import { CreateGameRequest } from "@cardgame/common"
+import { CreateGameRequest, Player } from "@cardgame/common"
 
 import { AppDispatch, RootState } from '../../app/store';
 import { showMasker } from '../../containers/masker/maskerSlice';
@@ -6,7 +6,7 @@ import { showAlert } from '../../containers/alert/alertSlice';
 
 import { getUser, getGuestId } from '../user/userSlice';
 
-import { getGameState, sendCreateGameRequest } from './api';
+import { getGameState, sendCreateGameRequest, updateGameState } from './api';
 
 import type { GameSliceState } from './types';
 
@@ -81,7 +81,6 @@ export const initializeGame = (gameId: string) =>
     });
 
     try {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
         const gameStateResponse = await getGameState(gameId);
 
         const user = getUser(getState());
@@ -115,6 +114,58 @@ export const initializeGame = (gameId: string) =>
     }
 };
 
+export const switchPlayers = (gameId: string, id1: string, id2: string) =>
+    async (dispatch: AppDispatch, getState: () => RootState) =>
+{
+    const gameState = {
+        ...getState().game.entities[gameId].gameState
+    };
+
+    let players = [...gameState.players];
+
+    const idx1 = players.findIndex((p) => p.id === id1);
+    const idx2 = players.findIndex((p) => p.id === id2);
+
+    const tmp = players[idx1];
+    players[idx1] = players[idx2];
+    players[idx2] = tmp;
+
+    gameState.players = players;
+
+    dispatch({
+        type: 'game/updateGameState',
+        payload: {
+            gameId,
+            gameState
+        }
+    });
+
+    updateGameState({ gameId, gameState });
+};
+
+export const updatePlayer = (gameId: string, player: Player) =>
+    async (dispatch: AppDispatch, getState: () => RootState) =>
+{
+    const gameState = {
+        ...getState().game.entities[gameId].gameState
+    };
+
+    gameState.players = [...gameState.players];
+
+    const idx = gameState.players.findIndex((p) => p.id === player.id);
+    gameState.players[idx] = player;
+
+    dispatch({
+        type: 'game/updateGameState',
+        payload: {
+            gameId,
+            gameState
+        }
+    });
+
+    updateGameState({ gameId, gameState });
+}
+
 export const _gameSetupReducers = ({
     initializeGame: (state: GameSliceState, { payload }: any) => {
         state.entities[payload.gameId] = {
@@ -135,6 +186,12 @@ export const _gameSetupReducers = ({
             initializing: false,
             initialized: true,
             initializationFailed: true
+        };
+    },
+    updateGameState: (state: GameSliceState, { payload }: any) => {
+        state.entities[payload.gameId] = {
+            ...(state.entities[payload.gameId] ?? {}),
+            gameState: payload.gameState
         };
     }
 });

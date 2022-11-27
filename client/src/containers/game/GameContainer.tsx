@@ -10,10 +10,13 @@ import {
     gameInitializationFailed,
     getGameState,
     getPlayerId,
-    initializeGame
+    initializeGame,
+    switchPlayers,
+    updatePlayer
 } from '../../data/game/gameSlice';
 
 import styles from './Game.module.less';
+import { Player } from '@cardgame/common';
 
 interface GameContainerProps {
     gameId: string
@@ -32,11 +35,30 @@ const GameContainer = (props: GameContainerProps) => {
         }
     }, [isInitialized, failed, props.gameId, dispatch]);
 
+    const allowModifications = !gameState?.started &&
+        playerId === gameState?.players[0].id;
+
+    let modificationFunctions;
+    if (allowModifications) {
+        modificationFunctions = {
+            switchPlayers: (id1: string, id2: string) => {
+                dispatch(switchPlayers(props.gameId, id1, id2));
+            },
+            updatePlayer: (player: Player) => {
+                dispatch(updatePlayer(props.gameId, player));
+            }
+        }
+    }
+
     return (
         <Screen smallBanner>
             <div className={styles.main}>
                 <div className={styles.board}>
-                    <GameBoard gameState={gameState} playerId={playerId} />
+                    <GameBoard
+                        gameState={gameState}
+                        playerId={playerId}
+                        modificationFunctions={modificationFunctions}
+                    />
                 </div>
             </div>
         </Screen>

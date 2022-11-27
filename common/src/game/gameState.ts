@@ -8,3 +8,8 @@ export interface GameState {
 export interface GetGameStateResponse {
     gameState: GameState
 }
+
+export interface UpdateGameStateRequest {
+    gameId: string,
+    gameState: GameState
+}

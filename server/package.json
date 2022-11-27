@@ -15,9 +15,11 @@
     "@fastify/session": "^10.0.2",
     "bcryptjs": "^2.4.3",
     "fastify": "^4.9.2",
+    "fastify-socket.io": "^4.0.0",
     "lodash.isequal": "^4.5.0",
     "mongodb": "^4.11.0",
-    "short-uuid": "^4.2.2"
+    "short-uuid": "^4.2.2",
+    "socket.io": "^4.5.4"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

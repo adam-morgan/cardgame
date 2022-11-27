@@ -50,6 +50,8 @@ const LandscapeGameBoard = (props: GameBoardProps) => {
         );
     }
 
+    const allowModification = props.modificationFunctions != null;
+
     const players = [];
     if (props.gameState?.players?.length) {
         const myIdx = props.gameState.players.findIndex((p) => p.id === props.playerId);
@@ -94,7 +96,15 @@ const LandscapeGameBoard = (props: GameBoardProps) => {
 
             players.push((
                 <div key={player.id} className={styles[`player${boardPosition}`]}>
-                    <PlayerAvatar player={player} index={arrayIdx} />
+                    <PlayerAvatar
+                        player={player}
+                        index={arrayIdx}
+                        allowDrag={allowModification}
+                        onDrop={(p) => {
+                            props.modificationFunctions?.switchPlayers(p.id, player.id);
+                        }}
+                        updatePlayer={props.modificationFunctions?.updatePlayer}
+                    />
                 </div>
             ))
         }

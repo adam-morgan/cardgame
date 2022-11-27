@@ -13,7 +13,7 @@ import { PlayingCard } from './cards/playingCard.js';
 import { Suit } from './cards/suit.js';
 
 import { CreateGameRequest, CreateGameResponse } from './game/createGame.js';
-import { GameState, GetGameStateResponse } from './game/gameState.js';
+import { GameState, GetGameStateResponse, UpdateGameStateRequest } from './game/gameState.js';
 import { Player } from './game/player.js';
 
 export type {
@@ -28,6 +28,7 @@ export type {
     LoginResponse,
     Player,
     Suit,
+    UpdateGameStateRequest,
     User
 };
 
