@@ -7,7 +7,7 @@ import Screen from '../components/screen/Screen';
 
 import Login from './Login';
 import Signup from './Signup';
-import CreateGame from './CreateGame';
+import CreateOrJoinGame from './CreateOrJoinGame';
 import { SmallBannerContext } from './context';
 
 interface HomeScreenProps {
@@ -25,7 +25,7 @@ const HomeScreen = (props: HomeScreenProps) => {
         homeContent = (
             <>
                 {!loggedIn ? (<Login key="login"/>) : null}
-                <CreateGame key="createGame" />
+                <CreateOrJoinGame key="createOrJoinGame" />
             </>
         );
     }

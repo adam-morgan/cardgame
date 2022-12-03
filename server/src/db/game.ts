@@ -16,6 +16,9 @@ export const initGameDb = async () => {
             {
                 indexSpec: { gameId: 1 },
                 options: { unique: true }
+            },
+            {
+                indexSpec: { 'gameState.joinCode': 1 }
             }
         ]
     )
@@ -42,6 +45,7 @@ export const getGameState = async (gameId: string) => {
 
     const gameState: GameState = {
         started: res.started,
+        joinCode: res.joinCode,
         players: res.players
     };
 
@@ -82,3 +86,10 @@ export const updateGameState = async (gameId: string, gameState: GameState) => {
     const collection = await getMongoCollection(GAMES_COLLECTION);
     return collection.updateOne({ gameId }, { $set: { ...gameState }});
 }
+
+export const getGameIdWithJoinCode = async (joinCode: string) => {
+    const collection = await getMongoCollection(GAMES_COLLECTION);
+    const cursor = collection.find({ 'gameState.joinCode': joinCode });
+
+    return cursor.next();
+};

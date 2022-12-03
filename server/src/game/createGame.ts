@@ -9,7 +9,7 @@ import {
     User
 } from "@cardgame/common"
 
-import { createGame as dbCreateGame } from '../db/game.js';
+import { createGame as dbCreateGame, getGameIdWithJoinCode } from '../db/game.js';
 import type { UserInfo } from '../auth/types.js';
 
 const colors = [
@@ -61,9 +61,11 @@ export const createGame = async (
     }
 
     const gameId = shortUuid.generate();
+    const joinCode = await createJoinCode();
 
     const gameState: GameState = {
         players,
+        joinCode,
         started: false
     };
 
@@ -74,4 +76,15 @@ export const createGame = async (
         gameId,
         gameState
     }
+};
+
+const createJoinCode = async () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let joinCode = [0, 0, 0, 0, 0, 0].map((i) => chars.at(Math.floor(Math.random() * chars.length))).join('');
+
+    if (await getGameIdWithJoinCode(joinCode)) {
+        joinCode = await createJoinCode();
+    }
+
+    return joinCode;
 };

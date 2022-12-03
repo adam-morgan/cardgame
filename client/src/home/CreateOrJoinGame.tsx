@@ -15,15 +15,17 @@ import { SmallBannerContext } from './context';
 
 import styles from './Home.module.less';
 
-const CreateGame = () => {
+const CreateOrJoinGame = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const loggedIn = useAppSelector(isLoggedIn);
 
     const [showDialog, setShowDialog] = useState(false);
+    const [showJoinDialog, setShowJoinDialog] = useState(false);
     const [numPlayers, setNumPlayers] = useState<number | undefined>();
     const [playerName, setPlayerName] = useState<string | undefined>();
+    const [joinCode, setJoinCode] = useState<string | undefined>();
 
     let formValid = true;
     if (numPlayers == null) {
@@ -32,10 +34,12 @@ const CreateGame = () => {
         formValid = false;
     }
 
+    const joinFormValid = Boolean(joinCode);
+
     return (
         <SmallBannerContext.Consumer>
             { ({ setSmallBanner }) => (
-                <div>
+                <div className={styles.createOrJoinGameButtons}>
                     <Button
                         variant="contained"
                         color="success"
@@ -47,6 +51,17 @@ const CreateGame = () => {
                         }}
                     >
                         Create New Game {!loggedIn ? '(As Guest)' : null}
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        color="success"
+                        fullWidth
+                        onClick={() => {
+                            setJoinCode(undefined);
+                            setShowJoinDialog(true);
+                        }}
+                    >
+                        Join Game With Code
                     </Button>
                     <ModalDialog
                         open={showDialog}
@@ -95,10 +110,38 @@ const CreateGame = () => {
                             />
                         </div>
                     </ModalDialog>
+                    <ModalDialog
+                        open={showJoinDialog}
+                        title="Join Game"
+                        onClose={() => setShowJoinDialog(false)}
+                        closeOnClickOutside={false}
+                        actions={[
+                            {
+                                title: 'Cancel',
+                                onClick: () => setShowDialog(false)
+                            },
+                            {
+                                title: 'Join Game',
+                                onClick: async () => {
+                                    setShowJoinDialog(false);
+                                },
+                                disabled: !joinFormValid
+                            }
+                        ]}
+                    >
+                        <div>
+                            <TextField
+                                label="Game Code"
+                                fullWidth
+                                value={joinCode}
+                                onChange={(value) => setJoinCode(value)}
+                            />
+                        </div>
+                    </ModalDialog>
                 </div>
             )}
         </SmallBannerContext.Consumer>
     )
 };
 
-export default CreateGame;
+export default CreateOrJoinGame;

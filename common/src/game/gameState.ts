@@ -1,7 +1,8 @@
 import type { Player } from './player.js';
 
 export interface GameState {
-    players: Player[]
+    players: Player[],
+    joinCode: string,
     started: boolean
 }
 
