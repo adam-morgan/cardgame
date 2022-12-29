@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { isLoggedIn } from '../data/user/userSlice';
-import { createGame } from '../data/game/gameSlice';
+import { createGame, joinGame } from '../data/game/gameSlice';
 
 import ModalDialog from '../components/dialogs/ModalDialog';
 import Select from '../components/forms/Select';
@@ -34,7 +34,10 @@ const CreateOrJoinGame = () => {
         formValid = false;
     }
 
-    const joinFormValid = Boolean(joinCode);
+    let joinFormValid = Boolean(joinCode);
+    if (joinFormValid && !loggedIn && !playerName?.trim()) {
+        joinFormValid = false;
+    }
 
     return (
         <SmallBannerContext.Consumer>
@@ -58,6 +61,7 @@ const CreateOrJoinGame = () => {
                         fullWidth
                         onClick={() => {
                             setJoinCode(undefined);
+                            setPlayerName(undefined);
                             setShowJoinDialog(true);
                         }}
                     >
@@ -118,18 +122,37 @@ const CreateOrJoinGame = () => {
                         actions={[
                             {
                                 title: 'Cancel',
-                                onClick: () => setShowDialog(false)
+                                onClick: () => setShowJoinDialog(false)
                             },
                             {
                                 title: 'Join Game',
                                 onClick: async () => {
-                                    setShowJoinDialog(false);
+                                    const gameId = await dispatch(joinGame({
+                                        playerName: playerName as string,
+                                        joinCode: joinCode as string
+                                    }));
+
+                                    if (gameId != null) {
+                                        setShowJoinDialog(false);
+                                        setSmallBanner(true);
+                                        setTimeout(() => navigate(`/game/${gameId}`), 750);
+                                    }
                                 },
                                 disabled: !joinFormValid
                             }
                         ]}
                     >
-                        <div>
+                        <div className={styles.joinGame} >
+                            {loggedIn ?
+                                null :
+                                (
+                                    <TextField
+                                        label="Your Name"
+                                        fullWidth
+                                        value={playerName}
+                                        onChange={(value) => setPlayerName(value)}
+                                    />
+                                )}
                             <TextField
                                 label="Game Code"
                                 fullWidth

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import { Button } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { Player, PlayingCard } from '@cardgame/common';
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 
@@ -16,12 +18,13 @@ import {
     getGameState,
     getPlayerId,
     initializeGame,
+    isGameStarting,
+    startGame,
     switchPlayers,
     updatePlayer
 } from '../../data/game/gameSlice';
 
 import styles from './Game.module.less';
-import { Player } from '@cardgame/common';
 
 interface GameContainerProps {
     gameId: string
@@ -33,6 +36,7 @@ const GameContainer = (props: GameContainerProps) => {
     const failed = useAppSelector(gameInitializationFailed(props.gameId));
     const gameState = useAppSelector(getGameState(props.gameId));
     const playerId = useAppSelector(getPlayerId(props.gameId));
+    const isStarting = useAppSelector(isGameStarting(props.gameId));
 
     useEffect(() => {
         if (!isInitialized && !failed) {
@@ -42,11 +46,10 @@ const GameContainer = (props: GameContainerProps) => {
 
     const [showCopyPopup, setShowCopyPopup] = useState(false);
 
-    const allowModifications = !gameState?.started &&
-        playerId === gameState?.players[0].id;
+    const isGameOwner = playerId === gameState?.players[0].id;
 
     let modificationFunctions;
-    if (allowModifications) {
+    if (isGameOwner && !gameState?.started) {
         modificationFunctions = {
             switchPlayers: (id1: string, id2: string) => {
                 dispatch(switchPlayers(props.gameId, id1, id2));
@@ -58,25 +61,52 @@ const GameContainer = (props: GameContainerProps) => {
     }
 
     const messages: (string | React.ReactNode)[] = [];
+    let infoItem: React.ReactNode;
 
-    if (gameState?.players.some((p) => p.type === 'pending')) {
-        messages.push((
-            <span>
-                Invite players by sending this code:&nbsp;
-                <span className={styles.joinCode}>{gameState.joinCode}</span>
-                &nbsp;(
-                <Button
-                    className={styles.copyButton}
+    if (!gameState?.started) {
+        if (isGameOwner) {
+            let allowStart = true;
+            if (gameState?.players.some((p) => p.type === 'pending')) {
+                allowStart = false;
+                messages.push((
+                    <span key="invitePlayers">
+                        Invite players by sending this code:&nbsp;
+                        <span className={styles.joinCode}>{gameState.joinCode}</span>
+                        &nbsp;(
+                            <Button
+                                className={styles.copyButton}
+                                onClick={() => {
+                                    navigator.clipboard.writeText(gameState.joinCode);
+                                    setShowCopyPopup(true);
+                                }}
+                            >
+                                Copy
+                            </Button>
+                        )
+                    </span>
+                ));
+            }
+
+            infoItem = (
+                <LoadingButton
+                    variant='contained'
+                    loading={isStarting}
+                    size='large'
+                    disabled={!allowStart}
                     onClick={() => {
-                        navigator.clipboard.writeText(gameState.joinCode);
-                        setShowCopyPopup(true);
+                        dispatch(startGame(props.gameId));
                     }}
                 >
-                    Copy
-                </Button>
-                )
-            </span>
-        ));
+                    Start Game
+                </LoadingButton>
+            );
+        } else {
+            messages.push((
+                <span key="waitingForStart">
+                    Waiting for game to start...
+                </span>
+            ));
+        }
     }
 
     return (
@@ -88,6 +118,14 @@ const GameContainer = (props: GameContainerProps) => {
                         gameState={gameState}
                         playerId={playerId}
                         modificationFunctions={modificationFunctions}
+                        // playerCards={[
+                        //     new PlayingCard(9),
+                        //     new PlayingCard(10),
+                        //     new PlayingCard(11),
+                        //     new PlayingCard(12),
+                        //     new PlayingCard(0)
+                        // ]}
+                        infoItem={infoItem}
                     />
                 </div>
             </div>

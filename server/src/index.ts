@@ -49,10 +49,10 @@ const init = async () => {
 init().then(() => {
     server.ready().then(() => {
         server.io.on('connection', (socket) => {
-            const sessionId = server.parseCookie(socket.handshake.headers.cookie as string).sessionId;
-
             onSocketConnection(socket, async () => {
                 return new Promise((resolve) => {
+                    const sessionId = server.parseCookie(socket.handshake.headers.cookie as string).sessionId;
+
                     const req = { raw: {}, headers: {} };
                     server.decryptSession(sessionId, req, () => {
                         resolve((req as any).session);

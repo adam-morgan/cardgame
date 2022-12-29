@@ -42,7 +42,19 @@ const PlayerDetails = (props: PlayerDetailsProps) => {
     if (props.updatePlayer) {
         if (props.player.type !== 'pending') {
             modificationLink = (
-                <Button>Remove</Button>
+                <Button
+                    onClick={() => {
+                        if (props.updatePlayer) {
+                            props.updatePlayer({
+                                ...props.player,
+                                type: 'pending',
+                                username: ''
+                            });
+                        }
+                    }}
+                >
+                    Remove
+                </Button>
             );
         } else {
             modificationLink = (

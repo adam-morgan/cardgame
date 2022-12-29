@@ -1,6 +1,8 @@
 import {
-    GameState, Player
-} from "@cardgame/common"
+    GameState, Player, PlayingCard
+} from '@cardgame/common'
+
+import { gameStateUpdated } from '../game/stateListener.js';
 
 import {
     initializeMongoIndexes,
@@ -29,7 +31,7 @@ export const createGame = async (gameId: string, gameState: GameState) => {
 
     return collection.insertOne({
         gameId,
-        ...gameState
+        ...serializeGameState(gameState)
     });
 };
 
@@ -43,13 +45,7 @@ export const getGameState = async (gameId: string) => {
         return null;
     }
 
-    const gameState: GameState = {
-        started: res.started,
-        joinCode: res.joinCode,
-        players: res.players
-    };
-
-    return gameState;
+    return deserializeGameState(res);
 }
 
 export const getControllingPlayer = async (gameId: string) => {
@@ -84,12 +80,78 @@ export const getControllingPlayer = async (gameId: string) => {
 
 export const updateGameState = async (gameId: string, gameState: GameState) => {
     const collection = await getMongoCollection(GAMES_COLLECTION);
-    return collection.updateOne({ gameId }, { $set: { ...gameState }});
+    await collection.updateOne({ gameId }, { $set: { ...serializeGameState(gameState) }});
+
+    gameStateUpdated(gameId);
 }
 
 export const getGameIdWithJoinCode = async (joinCode: string) => {
     const collection = await getMongoCollection(GAMES_COLLECTION);
-    const cursor = collection.find({ 'gameState.joinCode': joinCode });
+    const cursor = collection.find({ 'gameState.joinCode': joinCode }).project({ gameId: 1 });
 
-    return cursor.next();
+    return (await cursor.next())?.gameId;
+};
+
+const serializeGameState = (gameState: GameState) => {
+    let deck;
+    if (gameState.deck != null) {
+        deck = gameState.deck.map((c) => c.idx);
+    }
+
+    let kitty;
+    if (gameState.kitty != null) {
+        kitty = gameState.kitty.map((c) => c.idx);
+    }
+
+    let players;
+    if (gameState.players != null) {
+        players = gameState.players.map((p) => {
+            let cards;
+            if (p.cards) {
+                cards = p.cards.map((c) => c.idx);
+            }
+
+            return { ...p, cards };
+        });
+    }
+
+    return {
+        ...gameState,
+        players,
+        deck,
+        kitty
+    };
+};
+
+const deserializeGameState = (document: any): GameState => {
+    let deck;
+    if (document.deck != null) {
+        deck = document.deck.map((c: number) => new PlayingCard(c));
+    }
+
+    let kitty;
+    if (document.kitty != null) {
+        kitty = document.kitty.map((c: number) => new PlayingCard(c));
+    }
+
+    let players;
+    if (document.players) {
+        players = document.players.map((p: any) => {
+            let cards;
+            if (p.cards) {
+                cards = p.cards.map((c: number) => new PlayingCard(c));
+            }
+
+            return { ...p, cards };
+        });
+    }
+
+    return {
+        started: document.started,
+        joinCode: document.joinCode,
+        players: players,
+        stage: document.stage,
+        deck,
+        kitty
+    }
 };

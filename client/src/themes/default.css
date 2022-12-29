@@ -13,5 +13,6 @@
     --gameBoard-background-color: white;
     --gameBoard-inner-box-shadow-color: #c3c3c3;
     --gameBoard-tray-box-shadow-color: rgb(0 0 0 / 15%);
+    --gameBoard-tray-info-item-color: rgb(0 0 0 / 5%);
     --gameBoard-playArea-background-color: #f4f4f4;
 }

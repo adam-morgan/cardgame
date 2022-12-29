@@ -9,7 +9,7 @@ interface MessageAreaProps {
 const MessageArea = (props: MessageAreaProps) => {
     return (
         <div className={styles.messageArea}>
-            {props.messages?.map((m) => (<span>{m}</span>))}
+            {props.messages?.map((m, idx) => (<span key={`msg${idx}`}>{m}</span>))}
         </div>
     )
 };

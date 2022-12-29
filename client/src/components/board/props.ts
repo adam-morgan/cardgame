@@ -1,4 +1,6 @@
-import { GameState, Player, PlayingCard } from "@cardgame/common"
+import React from 'react';
+
+import { GameState, Player, PlayingCard } from '@cardgame/common';
 
 export interface GameStateModifications {
     switchPlayers: (id1: string, id2: string) => void
@@ -10,4 +12,5 @@ export interface GameBoardProps {
     playerCards?: PlayingCard[]
     cardsDraggable?: boolean | ((card:PlayingCard) => boolean)
     modificationFunctions?: GameStateModifications
+    infoItem?: React.ReactNode
 };

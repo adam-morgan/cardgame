@@ -16,7 +16,6 @@ interface PlayerProps {
     onDrop?: (player: Player) => void
     updatePlayer?: (player: Player) => void
     player: Player
-    index: number
     size: number
 }
 
@@ -56,7 +55,7 @@ const PlayerAvatar = (props: PlayerProps) => {
     const style = {
         width: `${props.size}px`,
         height: `${props.size}px`
-    }
+    };
 
     let contents;
     if (props.player.type === 'pending') {

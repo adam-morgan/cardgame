@@ -4,7 +4,7 @@ const SUITS = [getSuit('h'), getSuit('d'), getSuit('s'), getSuit('c')];
 const VALUES = ['a', '2', '3', '4', '5', '6', '7', '8', '9', 't', 'j', 'q', 'k'];
 
 class PlayingCard {
-    private idx: number;
+    idx: number;
     value: string;
     suit: Suit;
     abbr: string;

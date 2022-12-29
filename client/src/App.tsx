@@ -20,7 +20,6 @@ import Masker from './containers/masker/MaskerContainer';
 import PopupAlert from './containers/alert/PopupAlertContainer';
 
 import './App.css';
-import TestLayout from './TestLayout';
 
 const GameContainerRoute = () => {
     const { gameId } = useParams();
@@ -39,10 +38,6 @@ const router = createBrowserRouter([
     {
         path: 'game/:gameId',
         element: <GameContainerRoute />
-    },
-    {
-        path: 'test',
-        element: <TestLayout />
     }
 ]);
 

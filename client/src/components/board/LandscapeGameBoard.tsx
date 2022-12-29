@@ -53,8 +53,31 @@ const LandscapeGameBoard = (props: GameBoardProps) => {
     const allowModification = props.modificationFunctions != null;
 
     const players = [];
+    let myPlayerAvatar;
+
     if (props.gameState?.players?.length) {
-        const myIdx = props.gameState.players.findIndex((p) => p.id === props.playerId);
+        let myIdx = props.gameState.players.findIndex((p) => p.id === props.playerId);
+
+        if (myIdx < 0) {
+            myIdx = 0;
+        }
+
+        const myPlayer = props.gameState.players[myIdx];
+        let myPlayerSize = 50;
+
+        if (boardWidth && boardHeight) {
+            myPlayerSize = Math.min(100, Math.floor(Math.min((boardWidth * 0.8) - 60, (boardHeight * 0.3) - 60)));
+        }
+
+        myPlayerAvatar = (
+            <div key={myPlayer.id}>
+                <PlayerAvatar
+                    player={myPlayer}
+                    size={myPlayerSize}
+                />
+            </div>
+        );
+
         const numPlayers = props.gameState.players.length;
 
         for (let i = myIdx + 1; i < myIdx + numPlayers; i++) {
@@ -95,10 +118,9 @@ const LandscapeGameBoard = (props: GameBoardProps) => {
             }
 
             players.push((
-                <div key={player.id} className={styles[`player${boardPosition}`]}>
+                <div key={`${player.id}${allowModification ? '_y' : '_n'}`} className={styles[`player${boardPosition}`]}>
                     <PlayerAvatar
                         player={player}
-                        index={arrayIdx}
                         allowDrag={allowModification}
                         onDrop={(p) => {
                             props.modificationFunctions?.switchPlayers(p.id, player.id);
@@ -127,8 +149,14 @@ const LandscapeGameBoard = (props: GameBoardProps) => {
                 </div>
                 <div className={styles.landscapeHandTray}>
                     <div className={styles.landscapeHandTrayInner}>
+                        <div className={styles.landscapeTrayPlayerAvatar}>
+                            {myPlayerAvatar}
+                        </div>
                         <div className={styles.landscapeHandTrayCards}>
                             {playerHand}
+                        </div>
+                        <div className={styles.landscapeTrayInfoItem}>
+                            {props.infoItem}
                         </div>
                     </div>
                 </div>
